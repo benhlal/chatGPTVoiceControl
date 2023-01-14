@@ -26,10 +26,10 @@ def speech_to_text():
 # Function to call GPT-3 API
 def generate_text(prompt):
     # Replace YOUR_API_KEY with your actual API key
-  #  api_key = "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"
+  #  api_key = ""
 
-   # api_key = "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"
-    api_key =  "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"
+   # api_key = ""
+    api_key =  ""
  
     headers = {'Content-Type': 'application/json',
                'Authorization': f"Bearer {api_key}"}
