@@ -6,7 +6,7 @@ import os
 # Get API key
 
 
-openai.api_key = "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"
+openai.api_key = ""
 
 # Initialize recognizer class (for recognizing the speech)
 r = sr.Recognizer()
