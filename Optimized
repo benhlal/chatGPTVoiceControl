@@ -1,4 +1,4 @@
-import openai
+iimport openai
 import speech_recognition as sr
 from gtts import gTTS
 import os
@@ -31,5 +31,5 @@ def recognize_speech_and_call_openai(model:str,num_completions:int):
         print("unknown error occured")
 
 if __name__ == "__main__":
-    openai.api_key = "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"
+    openai.api_key = ""
     recognize_speech_and_call_openai(model="davinci",num_completions=1)
