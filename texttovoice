@@ -1,0 +1,25 @@
+import speech_recognition as sr
+import openai
+
+# Set the API key
+#openai.api_key = "YOUR_API_KEY"
+
+# Initialize recognizer class (for recognizing the speech)
+r = sr.Recognizer()
+
+# Reading Microphone as source
+# listening the speech and store in audio_text variable
+with sr.Microphone() as source:
+    print("Talk")
+    audio_text = r.listen(source)
+    print("Time over, thanks")
+
+# recognize the speech and convert to text
+text = r.recognize_google(audio_text)
+
+# Use GPT-3 to process the text
+prompt = (f"{text}")
+completions = openai.Completion.create(engine="text-davinci-002", prompt=prompt, max_tokens=1024, n=1,stop=None,temperature=0.5)
+
+# Get the processed text
+processed_text = completions.choices[0]

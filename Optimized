@@ -1,0 +1,35 @@
+import openai
+import speech_recognition as sr
+from gtts import gTTS
+import os
+
+def recognize_speech_and_call_openai(model:str,num_completions:int):
+    # Initialize recognizer class (for recognizing the speech)
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Talk")
+        audio_text = r.listen(source)
+        print("Time over, thanks")
+
+    try:
+        # using google speech recognition
+        print("Text: "+r.recognize_google(audio_text))
+        prompt = r.recognize_google(audio_text)
+
+        response = openai.Completion.create(engine=model, prompt=prompt, max_tokens=1024, n=num_completions,stop=None,temperature=0.5)
+        text = response["choices"][0]["text"]
+        print(text)
+        #convert text to speech
+        myobj = gTTS(text=text, lang='en', slow=False)
+        myobj.save("response.mp3")
+        os.system("start response.mp3")
+
+    except sr.RequestError as e:
+        print("Could not request results; {0}".format(e))
+
+    except sr.UnknownValueError:
+        print("unknown error occured")
+
+if __name__ == "__main__":
+    openai.api_key = "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"
+    recognize_speech_and_call_openai(model="davinci",num_completions=1)

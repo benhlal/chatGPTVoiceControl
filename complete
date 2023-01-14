@@ -1,0 +1,43 @@
+import openai
+import speech_recognition as sr
+from gtts import gTTS
+import os
+
+# Get API key
+
+
+openai.api_key = "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"
+
+# Initialize recognizer class (for recognizing the speech)
+r = sr.Recognizer()
+
+# Reading Microphone as source
+# listening the speech and store in audio_text variable
+with sr.Microphone() as source:
+    print("Talk")
+    audio_text = r.listen(source)
+    print("Time over, thanks") 
+    
+# recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
+try:
+    # using google speech recognition
+    print("Text: "+r.recognize_google(audio_text))
+    prompt = r.recognize_google(audio_text)
+    
+    # Specify model
+    model = "davinci"
+    # Specify number of completions
+    num_completions = 1
+    response = openai.Completion.create(engine=model, prompt=prompt, max_tokens=1024, n=num_completions,stop=None,temperature=0.5)
+    text = response["choices"][0]["text"]
+    print(text)
+    #convert text to speech
+    myobj = gTTS(text=text, lang='en', slow=False)
+    myobj.save("response.mp3")
+    os.system("start response.mp3")
+
+except sr.RequestError as e:
+    print("Could not request results; {0}".format(e))
+
+except sr.UnknownValueError:
+    print("unknown error occured")
